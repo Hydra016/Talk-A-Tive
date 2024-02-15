@@ -60,6 +60,7 @@ const MyChats = () => {
       alignItems="center"
     >
       My Chats
+      <GroupChatModal>
       <Button
           d="flex"
           fontSize={{ base: "17px", md: "10px", lg: "17px" }}
@@ -67,9 +68,7 @@ const MyChats = () => {
         >
           New Group Chat
         </Button>
-      {/* <GroupChatModal>
-        
-      </GroupChatModal> */}
+      </GroupChatModal>
     </Box>
     <Box
       display="flex"
