@@ -8,10 +8,12 @@ import { FaPlus } from "react-icons/fa";
 import GroupChatModal from '../miscellanous/GroupChatModal';
 import { getSender } from '../../config/ChatLogics'; 
 
-const MyChats = () => {
+const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
   const { selectedChat, setSelectedChat, user, chats, setChats } = useContext(ChatContext);
   const toast = useToast();
+
+
 
   const fetchChats = async () => {
     try {
@@ -36,7 +38,7 @@ const MyChats = () => {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats()
-  }, [])
+  }, [fetchAgain])
 
   return (
     <Box
