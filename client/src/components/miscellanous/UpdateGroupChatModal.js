@@ -88,7 +88,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
           },
         }
       );
-
+        console.log(data)
       setSelectedChat(data);
       setFetchAgain(!fetchAgain);
       setRenameLoading(false);

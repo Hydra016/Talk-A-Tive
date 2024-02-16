@@ -6,7 +6,7 @@ const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
 const { notFound, errorHandler } = require("./middelwares/errorMiddelwares");
 const chatRoutes = require("./routes/chatRoutes");
-
+const messageRoutes = require("./routes/messageRoutes");
 
 const app = express();
 
@@ -22,7 +22,7 @@ app.use(express.json());
 
 mongoose.connect(process.env.DB_STRING);
 
-app.use("/api", [userRoutes, chatRoutes]);
+app.use("/api", [userRoutes, chatRoutes, messageRoutes]);
 
 app.use(notFound);
 app.use(errorHandler);

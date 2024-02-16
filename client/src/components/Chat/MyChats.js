@@ -13,6 +13,7 @@ const MyChats = ({ fetchAgain }) => {
   const { selectedChat, setSelectedChat, user, chats, setChats } = useContext(ChatContext);
   const toast = useToast();
 
+  console.log(chats)
 
 
   const fetchChats = async () => {
