@@ -22,7 +22,7 @@ import UserBadgeItem from "../User/UserBadgeItem";
 import axios from "axios";
 import UserListItem from "../User/UserListItem";
 
-const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
+const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain, fetchMessages }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [groupChatName, setGroupChatName] = useState();
   const [search, setSearch] = useState("");
@@ -41,7 +41,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API_URL_DEV}/users?search=${search}`,
+        `${process.env.REACT_APP_API_URL_DEV}/api/users?search=${search}`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,
@@ -77,7 +77,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
       setRenameLoading(true);
 
       const { data } = await axios.put(
-        `${process.env.REACT_APP_API_URL_DEV}/chat/group/rename`,
+        `${process.env.REACT_APP_API_URL_DEV}/api/chat/group/rename`,
         {
           chatId: selectedChat._id,
           chatName: groupChatName,
@@ -132,7 +132,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
     try {
       setLoading(true);
       const { data } = await axios.put(
-        `${process.env.REACT_APP_API_URL_DEV}/chat/group/add`,
+        `${process.env.REACT_APP_API_URL_DEV}/api/chat/group/add`,
         {
           chatId: selectedChat._id,
           userId: user1._id,
@@ -181,7 +181,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
         },
       };
       const { data } = await axios.put(
-        `${process.env.REACT_APP_API_URL_DEV}/chat/group/remove`,
+        `${process.env.REACT_APP_API_URL_DEV}/api/chat/group/remove`,
         {
           chatId: selectedChat._id,
           userId: user1._id,
@@ -191,6 +191,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain }) => {
 
       user1._id === user._id ? setSelectedChat() : setSelectedChat(data);
       setFetchAgain(!fetchAgain);
+      fetchMessages()
       setLoading(false);
     } catch (error) {
       toast({

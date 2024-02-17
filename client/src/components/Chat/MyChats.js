@@ -13,12 +13,11 @@ const MyChats = ({ fetchAgain }) => {
   const { selectedChat, setSelectedChat, user, chats, setChats } = useContext(ChatContext);
   const toast = useToast();
 
-  console.log(chats)
 
 
   const fetchChats = async () => {
     try {
-      const { data } = await axios.get("/api/chat", {
+      const { data } = await axios.get(`${process.env.REACT_APP_API_URL_DEV}/api/chat`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },

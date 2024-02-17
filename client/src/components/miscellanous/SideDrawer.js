@@ -56,7 +56,7 @@ const SideDrawer = () => {
       setLoadingChat(true);
 
       const { data } = await axios.post(
-        `${process.env.REACT_APP_API_URL_DEV}/chat`,
+        `${process.env.REACT_APP_API_URL_DEV}/api/chat`,
         { userId },
         {
           headers: {
