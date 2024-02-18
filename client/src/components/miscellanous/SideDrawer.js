@@ -27,6 +27,8 @@ import ChatLoading from "./ChatLoading";
 import axios from "axios";
 import UserListItem from "../User/UserListItem";
 import { ChatContext } from "../../context/ChatProvider";
+import { getSender } from "../../config/ChatLogics";
+import NotificationBadge, { Effect } from 'react-notification-badge';
 
 const SideDrawer = () => {
   const [search, setSearch] = useState("");
@@ -142,9 +144,26 @@ const SideDrawer = () => {
         <div>
           <Menu>
             <MenuButton p={1}>
+              
+              <NotificationBadge 
+                count={notification.length}
+                effect={Effect.SCALE}
+              />
               <FaBell />
             </MenuButton>
-            {/* <MenuList /> */}
+            <MenuList pl={2}>
+              {
+                !notification.length && "No new messages"
+              }
+              {notification.map(notif => (
+                <MenuItem onClick={() => {
+                  setSelectedChat(notif.chat)
+                  setNotification(notification.filter((n) => n !== notif))
+                }} key={notif._id}>
+                  {notif.chat.isGroupChat?`New message in ${notif.chat.chatName}`:`New message from ${getSender(user, notif.chat.users)}`}
+                </MenuItem>
+              ))}
+            </MenuList>
           </Menu>
           <Menu>
             <MenuButton as={Button} rightIcon={<FaChevronDown />}>

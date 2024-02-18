@@ -15,7 +15,7 @@ import animationData from "../../animations/typing.json";
 var socket, selectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
-    const { user, selectedChat, setSelectedChat } = useContext(ChatContext);
+    const { user, selectedChat, setSelectedChat, notification, setNotification } = useContext(ChatContext);
     const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
@@ -48,10 +48,15 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     // eslint-disable-next-line
   }, [selectedChat]);
 
+  console.log(notification)
+
   useEffect(() => {
     socket.on('message recieved', (newMessageReceived) => {
       if(!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id) {
-
+        if(!notification.includes(newMessageReceived)) {
+          setNotification([newMessageReceived, ...notification]);
+          setFetchAgain(!fetchAgain)
+        }
       } else {
         setMessages([...messages, newMessageReceived])
       }
