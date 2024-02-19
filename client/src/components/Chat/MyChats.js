@@ -86,7 +86,7 @@ const MyChats = ({ fetchAgain }) => {
     >
       {chats ? (
         <Stack overflowY="scroll">
-          {chats.map((chat) => (
+          {chats.length > 0 ? chats.map((chat) => (
             <Box
               onClick={() => setSelectedChat(chat)}
               cursor="pointer"
@@ -111,7 +111,11 @@ const MyChats = ({ fetchAgain }) => {
                 </Text>
               )}
             </Box>
-          ))}
+          )) : <Box display="flex" alignItems="center" justifyContent="center" h="100vh">
+          <Text fontSize="3xl" pb={3} fontFamily="Work sans">
+            No chats yet
+          </Text>
+        </Box>}
         </Stack>
       ) : (
         <ChatLoading />

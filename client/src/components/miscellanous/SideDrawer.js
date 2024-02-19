@@ -98,7 +98,7 @@ const SideDrawer = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API_URL_DEV}/users?search=${search}`,
+        `${process.env.REACT_APP_API_URL_DEV}/api/users?search=${search}`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,

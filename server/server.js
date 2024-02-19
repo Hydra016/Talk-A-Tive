@@ -45,6 +45,7 @@ io.on("connection", (socket) => {
     socket.emit("connection");
   });
 
+  //selected chat room
   socket.on("join chat", (room) => {
     socket.join(room);
     console.log("User Joined Room: " + room);
@@ -59,10 +60,20 @@ io.on("connection", (socket) => {
 
     chat.users.forEach((user) => {
       if (user._id == newMessageRecieved.sender._id) return;
-      console.log(newMessageRecieved)
       socket.in(user._id).emit("message recieved", newMessageRecieved);
     });
   });
+
+  socket.on("create group", (newGroup) => {
+    var groupUsers = newGroup.users;
+    
+    if(!groupUsers) return console.log('no users in the group');
+
+    groupUsers.forEach(user => {
+      if(user._id === newGroup.groupAdmin._id) return;
+      socket.in(user._id).emit("group added", newGroup);
+    })
+  })
 
   socket.off("setup", () => {
     console.log("USER DISCONNECTED");

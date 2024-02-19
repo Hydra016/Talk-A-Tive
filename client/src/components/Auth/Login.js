@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
-    VStack,
-    FormControl,
-    FormLabel,
-    Input,
-    InputGroup,
-    InputRightElement,
-    Button,
-    useToast,
-  } from "@chakra-ui/react";
-  import { useNavigate } from "react-router-dom"
-  import axios from "axios";
+  VStack,
+  FormControl,
+  FormLabel,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Button,
+  useToast,
+} from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
   const toast = useToast();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleClick = () => {
-    setShow(!show)
-  }
+    setShow(!show);
+  };
 
   const submitHandler = async () => {
     setLoading(true);
@@ -38,45 +38,47 @@ const Login = () => {
       return;
     }
 
-      try {
-        const config = {
-            headers: {
-              "Content-type": "application/json",
-            },
-          };
-          const { data } = await axios.post(
-            `${process.env.REACT_APP_API_URL_DEV}/api/login`,
-            {
-              email,
-              password,
-            },
-            config
-          );
-          toast({
-            title: "Login Successful",
-            status: "success",
-            duration: 5000,
-            isClosable: true,
-            position: "bottom",
-          });
-          localStorage.setItem("userInfo", JSON.stringify(data));
-          setLoading(false);
-          navigate("/chats")
-        } catch (error) {
-          toast({
-            title: "Error Occured!",
-            description: error.response.data.message,
-            status: "error",
-            duration: 5000,
-            isClosable: true,
-            position: "bottom",
-          });
-          setLoading(false);
-        }
-  }
- 
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API_URL_DEV}/api/login`,
+        {
+          email,
+          password,
+        },
+        config
+      );
+      console.log(data);
+      toast({
+        title: "Login Successful",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      setLoading(false);
+      navigate("/chats");
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "Error Occured!",
+        description: error.response.data.message,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setLoading(false);
+    }
+  };
+
   return (
-    <VStack spacing='5px'>
+    <VStack spacing="5px">
       <FormControl id="email" isRequired>
         <FormLabel>Email Address</FormLabel>
         <Input
@@ -85,7 +87,7 @@ const Login = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
       </FormControl>
-        <FormControl id="password" isRequired>
+      <FormControl id="password" isRequired>
         <FormLabel>Password</FormLabel>
         <InputGroup size="md">
           <Input
@@ -105,22 +107,12 @@ const Login = () => {
         width="100%"
         style={{ marginTop: 15 }}
         onClick={submitHandler}
-        // isLoading={picLoading}
+        isLoading={loading}
       >
         Login
       </Button>
-      <Button
-        colorScheme="red"
-        width="100%"
-        style={{ marginTop: 15 }}
-        onClick={submitHandler}
-        variant="solid"
-        // isLoading={picLoading}
-      >
-        Get user credentials
-      </Button>
     </VStack>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

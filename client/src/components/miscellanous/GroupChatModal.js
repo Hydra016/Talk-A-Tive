@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -28,7 +28,27 @@ const GroupChatModal = ({ children }) => {
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const toast = useToast();
-  const { user, chats, setChats } = useContext(ChatContext);
+  const { user, chats, setChats, socket, } = useContext(ChatContext);
+
+  useEffect(() => {
+    // socket = io(process.env.REACT_APP_API_URL_DEV);
+    socket.emit("setup", user);
+  }, []);
+
+
+  useEffect(() => {
+    socket.on("group added", (data) => {
+      console.log(data)
+      toast({
+        title: `You are added to group ${data.chatName}`,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top right",
+      });
+      setChats([data, ...chats])
+    })
+  },[chats])
 
   const handleSearch = async (query) => {
     setSearch(query);
@@ -100,6 +120,7 @@ const GroupChatModal = ({ children }) => {
         },
         config
       );
+      socket.emit("create group", data)
       setChats([data, ...chats]);
       onClose();
       toast({
